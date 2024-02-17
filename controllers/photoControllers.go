@@ -15,10 +15,16 @@ import (
 	"github.com/google/uuid"
 )
 
+var baseUrl string
+
 type PhotoResponse struct {
 	Title   string `json:"title"`
 	Caption string `json:"caption"`
 	Url     string `json:"url"`
+}
+
+func init() {
+	baseUrl = os.Getenv("BASE_URL")
 }
 
 func UploadPhoto(c *gin.Context) {
@@ -60,7 +66,7 @@ func UploadPhoto(c *gin.Context) {
 		return
 	}
 
-	photo.Url = fmt.Sprintf("http://localhost:8080/images/%s", image)
+	photo.Url = fmt.Sprintf(baseUrl+"/images/%s", image)
 
 	if err := db.Debug().Create(&photo).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
