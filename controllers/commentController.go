@@ -31,6 +31,16 @@ func PostComment(c *gin.Context) {
 
 	Comment.UserId = uint(userData["id"].(float64))
 
+	// Check if the photo associated with the comment exists
+	var photo models.Photo
+	if err := db.First(&photo, Comment.PhotoId).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "Bad Request",
+			"message": "Photo associated with the comment not found or deleted.",
+		})
+		return
+	}
+
 	if err := db.Debug().Create(&Comment).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
