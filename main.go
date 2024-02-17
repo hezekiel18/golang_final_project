@@ -8,5 +8,5 @@ import (
 func main() {
 	database.StartDB()
 	r := routers.StartApp()
-	r.Run(":8080")
+	r.Run(":3000")
 }
