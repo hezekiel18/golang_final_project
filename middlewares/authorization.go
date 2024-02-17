@@ -1,37 +1,47 @@
 package middlewares
 
-// func ProductAuthorization() gin.HandlerFunc {
-// 	return func(c *gin.Context) {
-// 		db := database.GetDB()
-// 		productId, err := strconv.Atoi(c.Param("productId"))
-// 		if err != nil {
-// 			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-// 				"error":   "Bad Request",
-// 				"message": "invalid parameter",
-// 			})
-// 			return
-// 		}
+import (
+	"final_project/database"
+	"final_project/models"
+	"net/http"
+	"strconv"
 
-// 		userData := c.MustGet("userData").(jwt.MapClaims)
-// 		userId := uint(userData["id"].(float64))
-// 		Product := models.Product{}
+	"github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
+)
 
-// 		if err := db.Select("user_id").First(&Product, uint(productId)).Error; err != nil {
-// 			c.AbortWithStatusJSON(http.StatusNotFound, gin.H{
-// 				"error":   "Data Not Found",
-// 				"message": "data doesn't exist",
-// 			})
-// 			return
-// 		}
+func PhotoAuthorization() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		db := database.GetDB()
+		photoId, err := strconv.Atoi(c.Param("photoId"))
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error":   "Bad Request",
+				"message": "invalid parameter",
+			})
+			return
+		}
 
-// 		if Product.UserId != userId {
-// 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-// 				"error":   "Unauthorized",
-// 				"message": "you are not allowed to access this data",
-// 			})
-// 			return
-// 		}
+		userData := c.MustGet("userData").(jwt.MapClaims)
+		userId := uint(userData["id"].(float64))
+		Photo := models.Photo{}
 
-// 		c.Next()
-// 	}
-// }
+		if err := db.Select("user_id").First(&Photo, uint(photoId)).Error; err != nil {
+			c.AbortWithStatusJSON(http.StatusNotFound, gin.H{
+				"error":   "Data Not Found",
+				"message": "data doesn't exist",
+			})
+			return
+		}
+
+		if Photo.UserId != userId {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+				"error":   "Unauthorized",
+				"message": "you are not allowed to access this data",
+			})
+			return
+		}
+
+		c.Next()
+	}
+}
