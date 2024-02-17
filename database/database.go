@@ -4,20 +4,29 @@ import (
 	"final_project/models"
 	"fmt"
 	"log"
+	"os"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 var (
-	host     = "viaduct.proxy.rlwy.net"
-	user     = "postgres"
-	password = "-6A5df14efb5d61f2-5CGDAfaFcD**aa"
-	dbPort   = "33721"
-	dbName   = "railway"
+	host     = "localhost"
+	user     = "farras"
+	password = "password123"
+	dbPort   = "5433"
+	dbName   = "final-project"
 	db       *gorm.DB
 	err      error
 )
+
+func init() {
+	host = os.Getenv("HOST")
+	user = os.Getenv("USER")
+	password = os.Getenv("PASSWORD")
+	dbPort = os.Getenv("DB_PORT")
+	dbName = os.Getenv("DB_NAME")
+}
 
 func StartDB() {
 	config := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", host, user, password, dbName, dbPort)
