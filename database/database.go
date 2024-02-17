@@ -10,11 +10,11 @@ import (
 )
 
 var (
-	host     = "localhost"
-	user     = "farras"
-	password = "password123"
-	dbPort   = "5433"
-	dbName   = "final_project"
+	host     = "viaduct.proxy.rlwy.net"
+	user     = "postgres"
+	password = "-6A5df14efb5d61f2-5CGDAfaFcD**aa"
+	dbPort   = "33721"
+	dbName   = "railway"
 	db       *gorm.DB
 	err      error
 )
