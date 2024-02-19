@@ -21,11 +21,11 @@ var (
 )
 
 func init() {
-	host = os.Getenv("HOST")
-	user = os.Getenv("USER")
-	password = os.Getenv("PASSWORD")
-	dbPort = os.Getenv("DB_PORT")
-	dbName = os.Getenv("DB_NAME")
+	host = os.Getenv("PGHOST")
+	user = os.Getenv("POSTGRES_USER")
+	password = os.Getenv("PGPASSWORD")
+	dbPort = os.Getenv("PGPORT")
+	dbName = os.Getenv("PGDATABASE")
 }
 
 func StartDB() {
